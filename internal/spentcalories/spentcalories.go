@@ -22,23 +22,23 @@ func parseTraining(data string) (int, string, time.Duration, error) {
 	// TODO: реализовать функцию
 	newSlice := strings.Split(data, ",")
 	if len(newSlice) != 3 {
-		return 0, "", 0, errors.New("Неверное количество аргументов")
+		return 0, "", 0, fmt.Errorf("arguments must equal 3")
 	}
 	steps, err := strconv.Atoi(newSlice[0])
 	if err != nil {
-		return 0, newSlice[1], 0, err
+		return 0, "", 0, fmt.Errorf("invalid steps format: %w", err)
 	}
 
 	if steps <= 0 {
-		return 0, "", 0, errors.New("неверные шаги")
+		return 0, "", 0, fmt.Errorf("steps must be positive")
 	}
 
 	timeDuration, err := time.ParseDuration(newSlice[2])
 	if err != nil {
-		return 0, newSlice[1], 0, err
+		return 0, "", 0, fmt.Errorf("invalid timeDuration format: %w", err)
 	}
 	if timeDuration <= 0 {
-		return 0, "", 0, errors.New("неверное время")
+		return 0, "", 0, fmt.Errorf("invalid duration")
 	}
 
 	return steps, newSlice[1], timeDuration, nil
@@ -85,10 +85,10 @@ func TrainingInfo(data string, weight, height float64) (string, error) {
 func RunningSpentCalories(steps int, weight, height float64, duration time.Duration) (float64, error) {
 	// TODO: реализовать функцию
 	if steps <= 0 {
-		return 0, errors.New("Шагов мало")
+		return 0, fmt.Errorf("steps must be positive")
 	}
 	if duration <= 0 || weight <= 0 || height <= 0 || steps <= 0 {
-		return 0, errors.New("Неверные параметры")
+		return 0, fmt.Errorf("invalid parameters")
 	}
 	meanSpeed := meanSpeed(steps, height, duration)
 	durationInMinutes := duration.Minutes()
@@ -98,10 +98,10 @@ func RunningSpentCalories(steps int, weight, height float64, duration time.Durat
 func WalkingSpentCalories(steps int, weight, height float64, duration time.Duration) (float64, error) {
 	// TODO: реализовать функцию
 	if steps <= 0 {
-		return 0, errors.New("Шагов мало")
+		return 0, fmt.Errorf("steps must be positive")
 	}
 	if duration <= 0 || weight <= 0 || height <= 0 || steps <= 0 {
-		return 0, errors.New("Неверные параметры")
+		return 0, fmt.Errorf("invalid parameters")
 	}
 	meanSpeed := meanSpeed(steps, height, duration)
 	durationInMinutes := duration.Minutes()
