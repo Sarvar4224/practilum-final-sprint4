@@ -30,7 +30,7 @@ func parsePackage(data string) (int, time.Duration, error) {
 	}
 
 	if steps <= 0 {
-		return 0, 0, errors.New("неверные шаги")
+		return 0, 0, fmt.Errorf("steps must be positive")
 	}
 
 	timeDuration, err := time.ParseDuration(newSlice[1])
